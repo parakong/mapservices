@@ -3,33 +3,61 @@
 <head>
 
 	<title>Leaflet - Map web services example</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 
 	<style>
-		/* your css can go here. I suggest a height of 500px */
-
+	#mapid {
+		height: 500px;
+	}
 	</style>
+
 </head>
+
+
 <body>
-	<!-- your mapid div can go here -->
+
+	<div id="mapid"></div>
 
 <script>
+var mymap = L.map('mapid').setView([11.545, 104.8922], 15);
+var marker = L.marker([11.58599, 104.87188]).addTo(mymap);
+var circle = L.circle([11.58599, 104.87188], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 200
+}).addTo(mymap);
+var polygon = L.polygon([
+    [11.58329, 104.89857],
+    [11.5828, 104.89916],
+    [11.58363, 104.89952]
+]).addTo(mymap);
+marker.bindPopup("<b>Hello world!</b><br>This is Logos.").openPopup();
+circle.bindPopup("Logos Int Vicinity.");
+polygon.bindPopup("TK Avenue.");
+var popup = L.popup()
+    .setLatLng([11.58599, 104.87188])
+    .setContent("I am a standalone popup.")
+    .openOn(mymap);
+		function onMapClick(e) {
+		    popup
+		        .setLatLng(e.latlng)
+		        .setContent("You clicked the map at " + e.latlng.toString())
+		        .openOn(mymap);
+		}
+
+		mymap.on('click', onMapClick);
+
 	//your javascript code can go here. (FYI: phnom penh thmey is latitude, longitude: 11.545, 104.8922)
 
-
-/* use this code instead of the tutorial since it has an access token already...
-   just remove the comment tags below so that the code is not commented out ... */
-
-/*
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 	    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 	    maxZoom: 18,
 	    id: 'mapbox.streets'
 	}).addTo(mymap);
-*/
 
 // you could try this latitude/longitude for your marker: 11.58, 104.89
-
-
 
 </script>
 
